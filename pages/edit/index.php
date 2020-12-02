@@ -62,9 +62,9 @@ require('../../utils/tinymce.php');
 
   <div class="container center">
     <h4 class="teal-text">Edit Post</h4>
-    <!-- <div class="row">
-    <img src="" alt="" class="col s12 m8 l6 xl5" style="height: 400px; border: 1px solid black;">
-  </div> -->
+    <div class="row file__preview">
+      <img src="<?php echo $url ?>" class="input-field col s12 m10 xl8 offset-m1 offset-xl2">
+    </div>
     <div class="row">
       <form class="col s12" action="/poster/pages/edit/?postId=<?php echo $postId ?>" method="POST" enctype="multipart/form-data">
         <div class="row">
@@ -73,13 +73,13 @@ require('../../utils/tinymce.php');
               <i class='material-icons left'>cloud_upload</i>
               Upload Image
             </label>
-            <input required class="create__input--file" accept=".jpg,.jpeg,.png,.gif" type="file" name="image" id="image">
+            <input class="create__input--file" accept=".jpg,.jpeg,.png,.gif" type="file" name="image" id="image">
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12 m10 xl8 offset-m1 offset-xl2">
             <label for="title">Title</label>
-            <input required name="title" id="title" type="text" class="validate" value="<?php echo $title ?>">
+            <input name="title" id="title" type="text" class="validate" value="<?php echo $title ?>">
           </div>
         </div>
         <div class="row">
@@ -91,6 +91,26 @@ require('../../utils/tinymce.php');
         <a href="/poster/" class="waves-effect waves-light btn red"><i class='material-icons left'>cancel</i>Cancel</a>
       </form>
     </div>
+
+    <script>
+      const filePreview = document.querySelector('.file__preview img');
+      const fileInput = document.querySelector(".create__input--file");
+      fileInput.addEventListener('change', (e) => {
+        const {
+          target
+        } = e;
+
+        if (target.files && target.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+            filePreview.src = e.target.result;
+          }
+
+          reader.readAsDataURL(target.files[0]);
+        }
+      })
+    </script>
 </body>
 
 </html>
